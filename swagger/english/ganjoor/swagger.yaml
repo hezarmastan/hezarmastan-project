@@ -1,0 +1,211 @@
+swagger: "2.0"
+
+info:
+  title: Api document for Hezarmastan project
+  version: 1.0.0
+
+host: api.hezarmastan.ir/
+basePath: ganjoor/v1
+
+paths:
+  /poet:
+    get:
+      summary: a list of poets
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Poet'
+
+  /poet/{poetCode}:
+    get:
+      summary: detail of specified poet with it's main works
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PoetDetail'
+
+  /poet/{poetCode}/work/{workCode}:
+    get:
+      summary: list of subworks of a specified work
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PoetWorkDetail'
+
+  /poet/{poetCode}/work/{workCode}/poem:
+    get:
+      summary: list of poems of a specified works
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Poem'
+
+  /poet/{poetCode}/work/{workCode}/poem/{poemCode}:
+    get:
+      summary: detail and verses of a specified poem
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PoemDetail'
+
+  /poet/{poetCode}/work/{workCode}/poem/{poemCode}/sound:
+    get:
+      summary: list of sounds of a specified poem
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PoemSound'
+
+  /poet/{poetCode}/work/{workCode}/poem/{poemCode}/sound/{soundCode}:
+    get:
+      summary: peices of a specified sound
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PoemSoundDetail'
+
+
+definitions:
+  Poet:
+    type: object
+    properties:
+      code:
+        type: string
+        example: hafez
+      name:
+        type: string
+        example: حافظ
+
+  PoetDetail:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Poet'
+    properties:
+      description:
+        type: string
+        example: شاعر سده هفتم هجری
+      works:
+        type: array
+        items:
+          $ref: '#/definitions/PoetWork'
+  PoetWork:
+    type: object
+    properties:
+      code:
+        type: string
+        example: ghazal
+      title:
+        type: string
+        example: غزلیات
+
+  PoetWorkDetail:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PoetWork'
+    properties:
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/PoetWork'
+  Poem:
+    type: object
+    properties:
+      code:
+        type: string
+        example: divan
+      title:
+        type: string
+        example: غزل شمارهٔ ۱
+
+  PoemDetail:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Poem'
+    properties:
+      verses:
+        type: array
+        items:
+          $ref: '#/definitions/Verse'
+
+  Verse:
+    type: object
+    properties:
+      text:
+        type: string
+        example: الا یا ایها الساقی
+      order:
+        type: integer
+        format: int32
+        example: 1
+      position:
+        type: string
+        enum: [MESRA_FIRST, MESRA_SECOND, TARJI_TARKIB_FIRST, TARJI_TARKIB_SECOND,NIMAEE,PARAGRAPH]
+
+  PoemSound:
+    type: object
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+
+  PoemSoundDetail:
+      type: object
+      allOf:
+        - $ref: '#/definitions/PoemSound'
+      properties:
+        url:
+          type: string
+        guid:
+          type: boolean
+        checksum:
+          type: integer
+          format: int32
+          example: 1
+        uploaded:
+          type: boolean
+        pieces:
+          type: array
+          items:
+            $ref: '#/definitions/PoemSoundPieces'
+
+  PoemSoundPieces:
+      type: object
+      properties:
+        order:
+          type: integer
+          format: int32
+        on:
+          type: integer
+          format: int32
