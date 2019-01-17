@@ -4,8 +4,8 @@ info:
   title: Api document for Hezarmastan project
   version: 1.0.0
 
-host: api.hezarmastan.ir/
-basePath: ganjoor/v1
+host: api.hezarmastan.ir
+basePath: /ganjoor/v1
 
 paths:
   /poet:
