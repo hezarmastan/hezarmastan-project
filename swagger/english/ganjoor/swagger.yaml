@@ -121,10 +121,10 @@ definitions:
     properties:
       code:
         type: string
-        example: hafez
+        example: jami
       name:
         type: string
-        example: حافظ
+        example: جامی
 
   PoetDetail:
     type: object
@@ -133,7 +133,7 @@ definitions:
     properties:
       description:
         type: string
-        example: شاعر سده هفتم هجری
+        example: 'نورالدین عبدالرحمن ابن نظام الدین احمد ابن محمد متخلص به جامی در سال ۸۱۷ هجری قمری در خرجرد جام از توابع خراسان متولد شد. .وی بعدها همراه پدرش به سمرقند و هرات رفت و در آن دیار به کسب علم و ادب پرداخت. سپس به سیر و سلوک مشغول و از بزرگان طریقت شد. او نزد سلطان حسین میرزا بایقرا و وزیر فاضل او امیر علیشیر نوایی تقربی خاص داشت. او در محرم ۸۹۸ هجری قمری وفت کرد و در هرات با احترام فراوان به خاک سپرده شد. از جامی بیش از چهل اثر و تألیف سودمند و گرانبها به جای مانده است. معروفترین آثار او عبارت از هفت مثنوی به نام “هفت اورنگ” است.'
       works:
         type: array
         items:
@@ -143,10 +143,10 @@ definitions:
     properties:
       code:
         type: string
-        example: ghazal
+        example: 7ourang
       title:
         type: string
-        example: غزلیات
+        example: هفت اورنگ
 
   PoetWorkDetail:
     type: object
@@ -162,10 +162,10 @@ definitions:
     properties:
       code:
         type: string
-        example: divan
+        example: 1
       title:
         type: string
-        example: غزل شمارهٔ ۱
+        example: بخش ۱ - الله سبحانه هوالبرالودود
 
   PoemDetail:
     type: object
@@ -182,7 +182,7 @@ definitions:
     properties:
       text:
         type: string
-        example: الا یا ایها الساقی
+        example: حمد او تاج تارک سخن است
       order:
         type: integer
         format: int32
@@ -190,3 +190,5 @@ definitions:
       position:
         type: string
         enum: [MESRA_FIRST, MESRA_SECOND, TARJI_TARKIB_FIRST, TARJI_TARKIB_SECOND,NIMAEE,PARAGRAPH]
+        example:
+          FIRST
