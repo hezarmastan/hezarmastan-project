@@ -189,6 +189,12 @@ definitions:
         example: 1
       position:
         type: string
-        enum: [MESRA_FIRST, MESRA_SECOND, TARJI_TARKIB_FIRST, TARJI_TARKIB_SECOND,NIMAEE,PARAGRAPH]
+        enum:
+          - RIGHT
+          - LEFT
+          - SINGLE_CENTER_FIRST
+          - SINGLE_CENTER_SECOND
+          - SINGLE
+          - PARAGRAPH
         example:
           FIRST
