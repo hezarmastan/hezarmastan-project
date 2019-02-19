@@ -115,6 +115,153 @@ paths:
             items:
               $ref: '#/definitions/PoemDetail'
 
+  /poet/search:
+    get:
+      summary: search in poets
+      parameters:
+        - in: query
+          required: true
+          name: text
+          description: "The **text** that the user searches for in poets. this query also used to search in poet description
+          \n Example = `جامی`. returns jami as an item of result array
+          \n Example = `نظام`. returns jami as an item of result array because `نظام` occurs in jami description and also the service returns nezami as another item because `نظام` is a part of nezami name"
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Poet'
+
+  /works/search:
+    get:
+      summary: search in poet works with optional scopes
+      parameters:
+        - in: query
+          required: true
+          name: text
+          description: "The text that the user searches for poet's works. for example `هفت`."
+          type: string
+        - in: query
+          name: scope
+          description: "The scopes that user searches in.
+                                 \n If you don't send any scope, the service will searches in whole works.
+                                 \n If you send multiple scopes, the service will search in every scope
+                                 \n each scope followed this pattern:
+                                 poet name comes first.
+                                 If you need to limit the scope to one of poet works, you can add a dot(`.`) and write scope's fully qualified path which separated each node by dot. like `poet.work-level-1.work-level-2` and so on.
+                                 \n Example = `jami` which searches in all of jami's works with sub-tree search
+                                 \n Example = `jami.7ourang` which searches in just 7ourang (هفت اورنگ) sub-works with sub-tree search
+                                 \n Example = `jami.7ourang.7-1` which searches in just 7-1 (سلسلةالذهب) sub-works with sub-tree search"
+          # ^[a-z]+(\*[a-z0-9\-]{1}((\.|[a-z0-9\-])*([a-z0-9\-])+))?$
+          # ^([a-z0-9\-]+)((\.|[a-z0-9\-])*([a-z0-9\-])+)?$
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PoetWork'
+
+  /poems/search:
+    get:
+      summary: search in poems with optional scopes
+      parameters:
+        - in: query
+          required: true
+          name: text
+          description: "The text that the user searches for poem. for example `عدل`."
+          type: string
+        - in: query
+          name: scope
+          description: "The scopes that user searches in.
+                                 \n If you don't send any scope, the service will searches in whole works and union all result sets to returns a set.
+                                 \n If you send multiple scopes, the service will search in every scope and union all result sets to returns a set
+                                 \n each scope followed this pattern:
+                                 poet name comes first.
+                                 If you need to limit the scope to one of poet works, you can add a dot(`.`) and write scope's fully qualified path which separated each node by dot. like `poet.work-level-1.work-level-2` and so on.
+                                 \n Example = `jami` which searches in all of jami's works with sub-tree search
+                                 \n Example = `jami.7ourang` which searches in just 7ourang (هفت اورنگ) sub-works with sub-tree search
+                                 \n Example = `jami.7ourang.7-1` which searches in just 7-1 (سلسلةالذهب) sub-works with sub-tree search"
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Poem'
+
+  /verse/search:
+    get:
+      summary: peices of a specified sound
+      parameters:
+        - in: query
+          required: true
+          name: text
+          description: "The text that the user searches for verse. for example `میزان`."
+          type: string
+        - in: query
+          name: scope
+          description: !!str "The scopes that user searches in.
+                                 \n If you don't send any scope, the service will searches in whole works and union all result sets to returns a set as result.
+                                 \n If you send multiple scopes, the service will search in every scope and union all result sets to returns a set as result.
+                                 \n each scope followed this pattern:
+                                 \n1. poet name comes first.
+                                 \n2. If you need to limit the scope to one of poet works, you can add a dot(`.`)
+                                 and write scope's fully qualified path which separated each node by dot(`.`) . like `poet.work-level-1.work-level-2` and so on.
+                                 \n3. If you need to limit scope to only specified poem you should put a dot (`.`) at the end of scope and write poem id. like `poet.work-level-1.work-level-2.poem-id`.
+                                 In this case you should write fully qualified poem path. for example you cannot send `poet.work-level-1.poem-id` if real qualified path of poem is `poet.work-level-1.work-level-2.poem-id`.
+                                 \n Example = `jami` which searches in all of jami's works with sub-tree search
+                                 \n Example = `jami.7ourang` which searches in just 7ourang (هفت اورنگ) sub-poems with sub-tree search
+                                 \n Example = `jami.7ourang.7-1` which searches in just 7-1 (سلسلةالذهب) sub-poems with sub-tree search
+                                 \n Example = `jami.7ourang.7-1.sd1` which searches in just sd1 (دفتر اول) sub-poems with sub-tree search
+                                 \n Example = `jami.7ourang.7-1.sd1.65497` which searches in only text of poem with id 65497 (بخش ۱۲ - در صفت عدل و نصفت)"
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - in: query
+          required: false
+          name: position
+          description: "The position which those text occurred there.
+                                 \n If not sent any position, service searches in all positions.
+                                 \n If multiple position sent, service searches in all of them and union all of sets for result."
+          type: array
+          items:
+            type: string
+            enum:
+              - RIGHT
+              - LEFT
+              - SINGLE_CENTER_FIRST
+              - SINGLE_CENTER_SECOND
+              - SINGLE
+              - PARAGRAPH
+          collectionFormat: multi
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/VerseSearchResult'
+
 definitions:
   Poet:
     type: object
@@ -198,3 +345,11 @@ definitions:
           - PARAGRAPH
         example:
           FIRST
+
+  VerseSearchResult:
+    type: object
+    properties:
+      result:
+        $ref: '#/definitions/Verse'
+      neighbour:
+        $ref: '#/definitions/Verse'
