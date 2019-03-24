@@ -224,13 +224,13 @@ paths:
                                  \n1. poet name comes first.
                                  \n2. If you need to limit the scope to one of poet works, you can add a dot(`.`)
                                  and write scope's fully qualified path which separated each node by dot(`.`) . like `poet.work-level-1.work-level-2` and so on.
-                                 \n3. If you need to limit scope to only specified poem you should put a dot (`.`) at the end of scope and write poem id. like `poet.work-level-1.work-level-2.poem-id`.
-                                 In this case you should write fully qualified poem path. for example you cannot send `poet.work-level-1.poem-id` if real qualified path of poem is `poet.work-level-1.work-level-2.poem-id`.
+                                 \n3. If you need to limit scope to only specified poem you should put a underline (`_`) at the end of scope and write poem id. like `poet.work-level-1.work-level-2_poem-id`.
+                                 In this case you should write fully qualified poem path. for example you cannot send `poet.work-level-1_poem-id` if real qualified path of poem is `poet.work-level-1.work-level-2_poem-id`.
                                  \n Example = `jami` which searches in all of jami's works with sub-tree search
                                  \n Example = `jami.7ourang` which searches in just 7ourang (هفت اورنگ) sub-poems with sub-tree search
                                  \n Example = `jami.7ourang.7-1` which searches in just 7-1 (سلسلةالذهب) sub-poems with sub-tree search
                                  \n Example = `jami.7ourang.7-1.sd1` which searches in just sd1 (دفتر اول) sub-poems with sub-tree search
-                                 \n Example = `jami.7ourang.7-1.sd1.65497` which searches in only text of poem with id 65497 (بخش ۱۲ - در صفت عدل و نصفت)"
+                                 \n Example = `jami.7ourang.7-1.sd1_65497` which searches in only text of poem with id 65497 (بخش ۱۲ - در صفت عدل و نصفت)"
           type: array
           items:
             type: string
